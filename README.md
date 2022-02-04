@@ -8,7 +8,7 @@ const list = [ { name: 'create a post', status: 'In progress', priority: 'low'  
 
 Вы знаете что делать 🙂  
 
-#26. TODO. Бонус
+# TODO. Бонус
 
 Только для самых крутых
 
