@@ -9,6 +9,11 @@ const PRIORITY = {
     HIGH: 'high'
 }
 
+const DEFALUT = {
+    STATUS: 'To Do',
+    PRIORITY: 'low'
+}
+
 const list = [{
         name: 'create a post',
         status: STATUS.IN_PROGRESS,
@@ -39,67 +44,65 @@ function deleteTask(task) {
 };
 
 function addTask(task) {
-    const newTask = {
+    const addedTask = {
         name: task,
-        status: STATUS.TO_DO,
-        priority: 'low',
+        status: DEFALUT.STATUS,
+        priority: DEFALUT.PRIORITY,
     }
 
-    list.splice(list.length, 0, newTask)
+    list.splice(list.length, 0, addedTask)
 };
 
 function changeStatus(task, status) {
-    let taskFoundIndex = list.findIndex(item => item.name == task);
+    const taskFoundIndex = list.findIndex(item => item.name == task);
     if (taskFoundIndex != -1) list[taskFoundIndex].status = status;
     else console.log('This task does not exist!');
 };
 
-function showList() {
-    const isArrayStatus = {
-        ToDo: [],
-        InProgress : [],
-        Done: [],
-    }
-
-    list.forEach((item, index) => {
-        if (list[index].status == STATUS.TO_DO) isArrayStatus.ToDo.push(list[index].name)
-        if (list[index].status == STATUS.IN_PROGRESS) isArrayStatus.InProgress.push(list[index].name)
-        if (list[index].status == STATUS.DONE) isArrayStatus.Done.push(list[index].name)
-    })
-
-    for (let status in isArrayStatus){
-        if(isArrayStatus[status].length == 0) isArrayStatus[status].push('-')
-    }
-
-    console.log(` 
-    Done:
-        ${isArrayStatus.Done}
-    In Progress: 
-        ${isArrayStatus.InProgress}
-    To Do:
-        ${isArrayStatus.ToDo}
-    `);
-};
-
 function showBy(info){
-    if (info == 'status')  showList();
+    if (info == 'status')  {
+        const objStatus = {
+            ToDo: [],
+            InProgress : [],
+            Done: [],
+        }
+    
+        list.forEach(item => {
+            if (item.status == STATUS.TO_DO) objStatus.ToDo.push(item.name)
+            if (item.status == STATUS.IN_PROGRESS) objStatus.InProgress.push(item.name)
+            if (item.status == STATUS.DONE) objStatus.Done.push(item.name)
+        })
+    
+        for (let status in objStatus){
+            if(objStatus[status].length == 0) objStatus[status].push('-')
+        }
+    
+        console.log(` 
+        Done:
+            ${objStatus.Done}
+        In Progress: 
+            ${objStatus.InProgress}
+        To Do:
+            ${objStatus.ToDo}
+        `)
+    }
     else if(info == 'priority') {
-        const isArrayPriority = {
+        const objPriority = {
             HIGH: [],
             LOW: [],
             }
-        list.forEach((item, index) => {
-            if (list[index].priority == PRIORITY.HIGH) isArrayPriority.HIGH.push(list[index].name)
-            if (list[index].priority == PRIORITY.LOW) isArrayPriority.LOW.push(list[index].name)
+        list.forEach(item => {
+            if (item.priority == PRIORITY.HIGH) objPriority.HIGH.push(item.name)
+            if (item.priority == PRIORITY.LOW) objPriority.LOW.push(item.name)
         })
-        for (let priority in isArrayPriority){
-            if(isArrayPriority[priority].length == 0) isArrayPriority[priority].push('-')
+        for (let priority in objPriority){
+            if(objPriority[priority].length == 0) objPriority[priority].push('-')
         }
         console.log(`
             high:
-            ${isArrayPriority.HIGH}
+            ${objPriority.HIGH}
             low:
-            ${isArrayPriority.LOW}
+            ${objPriority.LOW}
         `)
     }
 }
@@ -107,8 +110,6 @@ function showBy(info){
 // addTask('walk on the street');
 // changeStatus('create a post','Done');
 // deleteTask('create a post');
-// showList();
-
 // showBy("status");
 // showBy("priority");
 
